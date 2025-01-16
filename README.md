@@ -2,7 +2,7 @@
 > support flipper control and velocity control through ros topic,and intergrated velodyne_lidar_simulator
 
 # keyboard ctrl
-in gazebo use arrow keys to contrl robot 
+in gazebo use arrow keys to control robot 
 # execute
 
 ```shell
@@ -25,4 +25,4 @@ angular:
   y: 0.0
   z: 0.5"
 
-  # keep updating...
+  ### keep updating...

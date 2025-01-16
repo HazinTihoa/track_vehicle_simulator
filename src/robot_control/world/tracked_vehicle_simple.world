@@ -1101,7 +1101,7 @@
 
             <!-- velodyne link -->
             <link name="velodyne">
-                <pose frame='velodyne_base_link'>0 0 0.0377 0 0 0</pose>
+                <pose frame='velodyne_base_link'>0 0 0 0 0 0</pose>
                 <inertial>
                     <pose>0 0 0 0 0 0</pose>
                     <mass>0.01</mass>
@@ -1115,6 +1115,7 @@
                     </inertia>
                 </inertial>
                 <visual name="visual">
+                    <pose frame='velodyne_base_link'>0 0 0 0 0 0</pose>
                     <geometry>
                         <mesh>
                             <uri>

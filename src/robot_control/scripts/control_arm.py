@@ -16,7 +16,7 @@ class ContinuousJointController:
 
         # Parameters for motion
         self.min_angle = 0.0
-        self.max_angle = 1.0
+        self.max_angle = 3.14
         self.step = 0.01
         self.rate = rospy.Rate(20)  # 20 Hz control loop
 
