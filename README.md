@@ -6,6 +6,7 @@ in gazebo use arrow keys to contrl robot
 # execute
 
 ```shell
+catkin_make -j$(nproc)
 source ./devel/setup.zsh
 roslaunch robot_control simple_track.launch
 ```
@@ -23,3 +24,5 @@ angular:
   x: 0.0
   y: 0.0
   z: 0.5"
+
+  # keep updating...
