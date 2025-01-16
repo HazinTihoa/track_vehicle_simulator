@@ -1,0 +1,8 @@
+prefix=/home/tzh/track-flipper/install
+
+Name: gazebo_ros_tracked_vehicle_interface
+Description: Description of gazebo_ros_tracked_vehicle_interface
+Version: 0.0.0
+Cflags: -I${prefix}/include
+Libs: -L${prefix}/lib -lgazebo_ros_tracked_vehicle_interface
+Requires: gazebo_plugins

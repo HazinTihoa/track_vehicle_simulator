@@ -1,0 +1,1 @@
+source /usr/share/gazebo-11/setup.sh

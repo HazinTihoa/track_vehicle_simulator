@@ -1,0 +1,45 @@
+<launch>
+    <arg name="paused" default="false" />
+    <arg name="use_sim_time" default="true" />
+    <arg name="gui" default="true" />
+    <arg name="headless" default="false" />
+    <arg name="debug" default="false" />
+    <arg name="verbose" default="true" />
+    <arg name="world_name" default="/home/tzh/track-flipper/src/robot_control/world/stair.world" />
+
+
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="paused" value="$(arg paused)" />
+        <arg name="use_sim_time" value="$(arg use_sim_time)" />
+        <arg name="gui" value="$(arg gui)" />
+        <arg name="headless" value="$(arg headless)" />
+        <arg name="debug" value="$(arg debug)" />
+        <arg name="verbose" value="$(arg verbose)" />
+        <arg name="world_name" value="$(arg world_name)" />
+    </include>
+
+    <arg name="gpu" default="false" />
+
+    <rosparam command="load" file="/home/tzh/track-flipper/src/robot_control/config/ctrl.yaml" />
+
+    <param name="robot_description"
+        command="$(find xacro)/xacro inorder /home/tzh/track-flipper/src/robot_control/model/tracked_vehicle.urdf.xacro" />
+
+    <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+        output="screen" ns="/simple_tracked"
+        args="joint_state_controller  arm_position_controller1 arm_position_controller2
+arm_position_controller3 arm_position_controller4" />
+
+    <node pkg="gazebo_ros" type="spawn_model" name="spawn_model"
+        args="-urdf -param /robot_description -model simple_tracked" />
+
+    <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher"
+        ns="/simple_tracked">
+        <param name="publish_frequency" type="double" value="30.0" />
+    </node> 
+
+    <arg name="rviz" default="true" />
+    <node if="$(arg rviz)" pkg="rviz" type="rviz" name="$(anon rviz)" respawn="false"
+        output="screen" args="-d $(find velodyne_description)/rviz/example.rviz" />
+
+</launch>

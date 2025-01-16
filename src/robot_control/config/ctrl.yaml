@@ -1,0 +1,33 @@
+simple_tracked:
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50
+
+  arm_position_controller1:
+    type: effort_controllers/JointPositionController
+    joint: front_left_flipper_j
+    pid: {p: 100.0, i: 0.01, d: 40.0}
+  arm_position_controller2:
+    type: effort_controllers/JointPositionController
+    joint: rear_left_flipper_j
+    pid: {p: 100.0, i: 0.01, d: 40.0}
+  arm_position_controller3:
+    type: effort_controllers/JointPositionController
+    joint: front_right_flipper_j
+    pid: {p: 100.0, i: 0.01, d: 40.0}
+  arm_position_controller4:
+    type: effort_controllers/JointPositionController
+    joint: rear_right_flipper_j
+    pid: {p: 100.0, i: 0.01, d: 40.0}
+
+
+    # type: effort_controllers/JointPositionController
+    # joints: front_left_flipper_j rear_left_flipper_j front_right_flipper_j rear_right_flipper_j
+    # constraints:
+    #   goal_time: 0.5
+    #   stopped_velocity_tolerance: 0.05
+    # gains:
+    #   front_left_flipper_j: {p: 10.0, i: 0.0, d: 10.0}
+    #   rear_left_flipper_j: {p: 10.0, i: 0.0, d: 10.0}
+    #   front_right_flipper_j: {p: 10.0, i: 0.0, d: 10.0}
+    #   rear_right_flipper_j: {p: 10.0, i: 0.0, d: 10.0}

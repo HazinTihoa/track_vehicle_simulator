@@ -1,0 +1,820 @@
+<?xml version="1.0"?>
+
+<robot name="simple_tracked" xmlns:xacro="http://ros.org/wiki/xacro">
+    <xacro:arg name="gpu" default="false" />
+    <xacro:property name="gpu" value="$(arg gpu)" />
+
+    <gazebo>
+        <gui>
+            <plugin name="keyboard"
+                filename="/usr/lib/x86_64-linux-gnu/gazebo-11/plugins/libKeyboardGUIPlugin.so" />
+        </gui>
+    </gazebo>
+
+    <link name="base_link">
+        <!-- 惯性属性 -->
+        <inertial>
+            <origin xyz="-0.122 0 0.118" rpy="1.5708 0 0" />
+            <mass value="13.14" />
+            <inertia ixx="0.10019" ixy="0" ixz="0" iyy="0.345043" iyz="0" izz="0.302044" />
+        </inertial>
+
+        <!-- 碰撞体 -->
+        <collision name="base_link_collision">
+            <origin xyz="-0.122 0 0.118" rpy="0 0 0" />
+            <geometry>
+                <box size="0.50017 0.24093 0.139" />
+            </geometry>
+        </collision>
+
+        <!-- 视觉元素 -->
+        <visual name="base_link_visual">
+            <origin xyz="-0.122 0 0.118" rpy="0 0 0" />
+            <geometry>
+                <box size="0.50017 0.24093 0.139" />
+            </geometry>
+        </visual>
+    </link>
+
+
+    <link name="left_track">
+        <!-- 惯性属性 -->
+        <inertial>
+            <origin xyz="0 0 0.0141" rpy="0 0 0" />
+            <mass value="6.06" />
+            <inertia ixx="0.002731" ixy="0" ixz="0" iyy="0.032554" iyz="0.000015" izz="0.031391" />
+        </inertial>
+
+        <!-- 碰撞体1 -->
+        <collision name="left_track_collision">
+            <origin xyz="0 0 0.01855" rpy="1.5708 0 1.5708" />
+            <geometry>
+                <box size="0.09728 0.18094 0.5" />
+            </geometry>
+            <!-- URDF不支持 <surface> 标签，若需要物理属性，可通过Gazebo插件设置 -->
+        </collision>
+
+        <!-- 碰撞体2 -->
+        <collision name="left_track_collision_1">
+            <origin xyz="0.25 0 0.01855" rpy="1.5708 0 0" />
+            <geometry>
+                <cylinder length="0.09728" radius="0.09047" />
+            </geometry>
+            <!-- 同上，物理属性需通过插件或其他方式设置 -->
+        </collision>
+
+        <!-- 碰撞体3 -->
+        <collision name="left_track_collision_2">
+            <origin xyz="-0.25 0 0.01855" rpy="1.5708 0 0" />
+            <geometry>
+                <cylinder length="0.09728" radius="0.09047" />
+            </geometry>
+            <!-- 同上，物理属性需通过插件或其他方式设置 -->
+        </collision>
+
+        <!-- 视觉元素1 -->
+        <visual name="left_track_visual">
+            <origin xyz="0 0 0.01855" rpy="1.5708 0 1.5708" />
+            <geometry>
+                <box size="0.09728 0.18094 0.5" />
+            </geometry>
+        </visual>
+
+        <!-- 视觉元素2 -->
+        <visual name="left_track_visual_1">
+            <origin xyz="0.25 0 0.01855" rpy="1.5708 0 0" />
+            <geometry>
+                <cylinder length="0.09728" radius="0.09047" />
+            </geometry>
+        </visual>
+
+        <!-- 视觉元素3 -->
+        <visual name="left_track_visual_2">
+            <origin xyz="-0.25 0 0.01855" rpy="1.5708 0 0" />
+            <geometry>
+                <cylinder length="0.09728" radius="0.09047" />
+            </geometry>
+        </visual>
+    </link>
+
+    <joint name="left_track_j" type="fixed">
+        <parent link="base_link" />
+        <child link="left_track" />
+        <origin xyz="0 0.1985 0" rpy="0 0 0" />
+    </joint>
+
+    <link name="right_track">
+        <!-- 惯性属性 -->
+        <inertial>
+            <origin xyz="0 0 0.0141" rpy="0 0 0" />
+            <mass value="6.06" />
+            <inertia ixx="0.002731" ixy="0" ixz="0" iyy="0.032554" iyz="0.000015" izz="0.031391" />
+        </inertial>
+
+        <!-- 碰撞体1 -->
+        <collision name="right_track_collision">
+            <origin xyz="0 0 0.01855" rpy="1.5708 0 1.5708" />
+            <geometry>
+                <box size="0.09728 0.18094 0.5" />
+            </geometry>
+        </collision>
+
+        <!-- 碰撞体2 -->
+        <collision name="right_track_collision_1">
+            <origin xyz="0.25 0 0.01855" rpy="1.5708 0 0" />
+            <geometry>
+                <cylinder length="0.09728" radius="0.09047" />
+            </geometry>
+        </collision>
+
+        <!-- 碰撞体3 -->
+        <collision name="right_track_collision_2">
+            <origin xyz="-0.25 0 0.01855" rpy="1.5708 0 0" />
+            <geometry>
+                <cylinder length="0.09728" radius="0.09047" />
+            </geometry>
+        </collision>
+
+        <!-- 视觉元素1 -->
+        <visual name="right_track_visual">
+            <origin xyz="0 0 0.01855" rpy="1.5708 0 1.5708" />
+            <geometry>
+                <box size="0.09728 0.18094 0.5" />
+            </geometry>
+        </visual>
+
+        <!-- 视觉元素2 -->
+        <visual name="right_track_visual_1">
+            <origin xyz="0.25 0 0.01855" rpy="1.5708 0 0" />
+            <geometry>
+                <cylinder length="0.09728" radius="0.09047" />
+            </geometry>
+        </visual>
+
+        <!-- 视觉元素3 -->
+        <visual name="right_track_visual_2">
+            <origin xyz="-0.25 0 0.01855" rpy="1.5708 0 0" />
+            <geometry>
+                <cylinder length="0.09728" radius="0.09047" />
+            </geometry>
+        </visual>
+    </link>
+
+    <joint name="right_track_j" type="fixed">
+        <parent link="base_link" />
+        <child link="right_track" />
+        <origin xyz="0 -0.1985 0" rpy="0 0 0" />
+    </joint>
+
+    <link name="front_left_flipper">
+        <!-- 惯性属性 -->
+        <inertial>
+            <origin xyz="0.08 0 0" rpy="0 0 0" />
+            <mass value="0.75" />
+            <inertia ixx="0.0017491" ixy="0.00000028512" ixz="0.0018277" iyy="0.012277"
+                iyz="-0.00000036288" izz="0.010941" />
+        </inertial>
+
+        <!-- 碰撞体1 -->
+        <collision name="front_left_flipper_collision_large_wheel_collision">
+            <origin xyz="0 0 0" rpy="1.5708 0 0" />
+            <geometry>
+                <cylinder length="0.04981" radius="0.089" />
+            </geometry>
+        </collision>
+
+        <!-- 碰撞体2 -->
+        <collision name="front_left_flipper_collision_small_wheel_collision_1">
+            <origin xyz="0.33 0 0" rpy="1.5708 0 0" />
+            <geometry>
+                <cylinder length="0.04981" radius="0.029" />
+            </geometry>
+        </collision>
+
+        <!-- 碰撞体3 -->
+        <collision name="front_left_flipper_collision_top_bar_collision_2">
+            <origin xyz="0.165 0 0.0325" rpy="0 0.184162 0" />
+            <geometry>
+                <box size="0.33 0.04981 0.055" />
+            </geometry>
+        </collision>
+
+        <!-- 碰撞体4 -->
+        <collision name="front_left_flipper_collision_bottom_bar_collision_3">
+            <origin xyz="0.165 0 -0.0325" rpy="0 -0.184162 0" />
+            <geometry>
+                <box size="0.33 0.04981 0.055" />
+            </geometry>
+        </collision>
+
+        <!-- 碰撞体5 -->
+        <collision name="front_left_flipper_collision_middle_bar_collision_4">
+            <origin xyz="0.166 0 0.004" rpy="0 -0.02 0" />
+            <geometry>
+                <box size="0.2 0.04981 0.07" />
+            </geometry>
+        </collision>
+
+        <!-- 视觉元素1 -->
+        <visual name="front_left_flipper_visual_large_wheel_visual">
+            <origin xyz="0 0 0" rpy="1.5708 0 0" />
+            <geometry>
+                <cylinder length="0.04981" radius="0.089" />
+            </geometry>
+        </visual>
+
+        <!-- 视觉元素2 -->
+        <visual name="front_left_flipper_visual_small_wheel_visual_1">
+            <origin xyz="0.33 0 0" rpy="1.5708 0 0" />
+            <geometry>
+                <cylinder length="0.04981" radius="0.029" />
+            </geometry>
+        </visual>
+
+        <!-- 视觉元素3 -->
+        <visual name="front_left_flipper_visual_top_bar_visual_2">
+            <origin xyz="0.165 0 0.0325" rpy="0 0.184162 0" />
+            <geometry>
+                <box size="0.33 0.04981 0.055" />
+            </geometry>
+        </visual>
+
+        <!-- 视觉元素4 -->
+        <visual name="front_left_flipper_visual_bottom_bar_visual_3">
+            <origin xyz="0.165 0 -0.0325" rpy="0 -0.184162 0" />
+            <geometry>
+                <box size="0.33 0.04981 0.055" />
+            </geometry>
+        </visual>
+
+        <!-- 视觉元素5 -->
+        <visual name="front_left_flipper_visual_middle_bar_visual_4">
+            <origin xyz="0.166 0 0.004" rpy="0 -0.02 0" />
+            <geometry>
+                <box size="0.2 0.04981 0.07" />
+            </geometry>
+        </visual>
+    </link>
+
+    <joint name="front_left_flipper_j" type="revolute">
+        <parent link="left_track" />
+        <child link="front_left_flipper" />
+
+        <!-- 关节相对于父链接的位姿 -->
+        <origin xyz="0.25 0.073545 0.0195" rpy="0 -0.5 0" />
+
+        <!-- 旋转轴 -->
+        <axis xyz="0 1 0" />
+
+        <!-- 关节限制 -->
+        <limit lower="0" upper="3.14" effort="10.0" velocity="1.0" />
+
+        <!-- 动力学属性 -->
+        <dynamics damping="0.0" friction="0.0" />
+    </joint>
+
+    <link name="rear_left_flipper">
+        <!-- 惯性属性 -->
+        <inertial>
+            <origin xyz="0.08 0 0" rpy="0 0 0" />
+            <mass value="0.75" />
+            <inertia
+                ixx="0.0017491"
+                ixy="2.8512e-07"
+                ixz="0.0018277"
+                iyy="0.012277"
+                iyz="-0.00000036288"
+                izz="0.010941" />
+        </inertial>
+
+        <!-- 碰撞体1 -->
+        <collision name="rear_left_flipper_collision_large_wheel_collision">
+            <origin xyz="0 0 0" rpy="1.5708 0 0" />
+            <geometry>
+                <cylinder length="0.04981" radius="0.089" />
+            </geometry>
+        </collision>
+
+        <!-- 碰撞体2 -->
+        <collision name="rear_left_flipper_collision_small_wheel_collision_1">
+            <origin xyz="0.33 0 0" rpy="1.5708 0 0" />
+            <geometry>
+                <cylinder length="0.04981" radius="0.029" />
+            </geometry>
+        </collision>
+
+        <!-- 碰撞体3 -->
+        <collision name="rear_left_flipper_collision_top_bar_collision_2">
+            <origin xyz="0.165 0 0.0325" rpy="0 0.184162 0" />
+            <geometry>
+                <box size="0.33 0.04981 0.055" />
+            </geometry>
+        </collision>
+
+        <!-- 碰撞体4 -->
+        <collision name="rear_left_flipper_collision_bottom_bar_collision_3">
+            <origin xyz="0.165 0 -0.0325" rpy="0 -0.184162 0" />
+            <geometry>
+                <box size="0.33 0.04981 0.055" />
+            </geometry>
+        </collision>
+
+        <!-- 碰撞体5 -->
+        <collision name="rear_left_flipper_collision_middle_bar_collision_4">
+            <origin xyz="0.166 0 0.004" rpy="0 -0.02 0" />
+            <geometry>
+                <box size="0.2 0.04981 0.07" />
+            </geometry>
+        </collision>
+
+        <!-- 视觉元素1 -->
+        <visual name="rear_left_flipper_visual_large_wheel_visual">
+            <origin xyz="0 0 0" rpy="1.5708 0 0" />
+            <geometry>
+                <cylinder length="0.04981" radius="0.089" />
+            </geometry>
+        </visual>
+
+        <!-- 视觉元素2 -->
+        <visual name="rear_left_flipper_visual_small_wheel_visual_1">
+            <origin xyz="0.33 0 0" rpy="1.5708 0 0" />
+            <geometry>
+                <cylinder length="0.04981" radius="0.029" />
+            </geometry>
+        </visual>
+
+        <!-- 视觉元素3 -->
+        <visual name="rear_left_flipper_visual_top_bar_visual_2">
+            <origin xyz="0.165 0 0.0325" rpy="0 0.184162 0" />
+            <geometry>
+                <box size="0.33 0.04981 0.055" />
+            </geometry>
+        </visual>
+
+        <!-- 视觉元素4 -->
+        <visual name="rear_left_flipper_visual_bottom_bar_visual_3">
+            <origin xyz="0.165 0 -0.0325" rpy="0 -0.184162 0" />
+            <geometry>
+                <box size="0.33 0.04981 0.055" />
+            </geometry>
+        </visual>
+
+        <!-- 视觉元素5 -->
+        <visual name="rear_left_flipper_visual_middle_bar_visual_4">
+            <origin xyz="0.166 0 0.004" rpy="0 -0.02 0" />
+            <geometry>
+                <box size="0.2 0.04981 0.07" />
+            </geometry>
+        </visual>
+    </link>
+
+    <joint name="rear_left_flipper_j" type="revolute">
+        <!-- 父子链接 -->
+        <parent link="left_track" />
+        <child link="rear_left_flipper" />
+
+        <!-- 关节在父链接坐标系中的位姿 -->
+        <origin xyz="-0.25 0.073545 0.0195" rpy="3.14159 -0.5 3.14159" />
+
+        <!-- 旋转轴 -->
+        <axis xyz="0 1 0" />
+
+        <!-- 关节限制 -->
+        <limit lower="0" upper="3.14" effort="10.0" velocity="1.0" />
+
+        <!-- 动力学属性（URDF仅支持 damping / friction） -->
+        <dynamics damping="0.0" friction="0.0" />
+
+        <!-- 硬件接口通常放在传动装置里。若需要在joint中声明，可这样添加： -->
+        <!-- <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface> -->
+    </joint>
+
+
+    <link name="front_right_flipper">
+        <!-- 惯性属性 -->
+        <inertial>
+            <origin xyz="-0.08 0 0" rpy="0 0 0" />
+            <mass value="0.75" />
+            <inertia
+                ixx="0.0017491"
+                ixy="2.8512e-07"
+                ixz="0.0018277"
+                iyy="0.012277"
+                iyz="-3.6288e-07"
+                izz="0.010941" />
+        </inertial>
+
+        <!-- 碰撞体1 -->
+        <collision name="front_right_flipper_collision_large_wheel_collision">
+            <origin xyz="0 0 0" rpy="1.5708 0 0" />
+            <geometry>
+                <cylinder length="0.04981" radius="0.089" />
+            </geometry>
+        </collision>
+
+        <!-- 碰撞体2 -->
+        <collision name="front_right_flipper_collision_small_wheel_collision_1">
+            <origin xyz="-0.33 0 0" rpy="1.5708 0 0" />
+            <geometry>
+                <cylinder length="0.04981" radius="0.029" />
+            </geometry>
+        </collision>
+
+        <!-- 碰撞体3 -->
+        <collision name="front_right_flipper_collision_top_bar_collision_2">
+            <origin xyz="-0.165 0 0.0325" rpy="0 0.184162 -3.14159" />
+            <geometry>
+                <box size="0.33 0.04981 0.055" />
+            </geometry>
+        </collision>
+
+        <!-- 碰撞体4 -->
+        <collision name="front_right_flipper_collision_bottom_bar_collision_3">
+            <origin xyz="-0.165 0 -0.0325" rpy="0 -0.184162 -3.14159" />
+            <geometry>
+                <box size="0.33 0.04981 0.055" />
+            </geometry>
+        </collision>
+
+        <!-- 碰撞体5 -->
+        <collision name="front_right_flipper_collision_middle_bar_collision_4">
+            <origin xyz="-0.166 0 0.004" rpy="0 -0.02 -3.14159" />
+            <geometry>
+                <box size="0.2 0.04981 0.07" />
+            </geometry>
+        </collision>
+
+        <!-- 视觉元素1 -->
+        <visual name="front_right_flipper_visual_large_wheel_visual">
+            <origin xyz="0 0 0" rpy="1.5708 0 0" />
+            <geometry>
+                <cylinder length="0.04981" radius="0.089" />
+            </geometry>
+        </visual>
+
+        <!-- 视觉元素2 -->
+        <visual name="front_right_flipper_visual_small_wheel_visual_1">
+            <origin xyz="-0.33 0 0" rpy="1.5708 0 0" />
+            <geometry>
+                <cylinder length="0.04981" radius="0.029" />
+            </geometry>
+        </visual>
+
+        <!-- 视觉元素3 -->
+        <visual name="front_right_flipper_visual_top_bar_visual_2">
+            <origin xyz="-0.165 0 0.0325" rpy="0 0.184162 -3.14159" />
+            <geometry>
+                <box size="0.33 0.04981 0.055" />
+            </geometry>
+        </visual>
+
+        <!-- 视觉元素4 -->
+        <visual name="front_right_flipper_visual_bottom_bar_visual_3">
+            <origin xyz="-0.165 0 -0.0325" rpy="0 -0.184162 -3.14159" />
+            <geometry>
+                <box size="0.33 0.04981 0.055" />
+            </geometry>
+        </visual>
+
+        <!-- 视觉元素5 -->
+        <visual name="front_right_flipper_visual_middle_bar_visual_4">
+            <origin xyz="-0.166 0 0.004" rpy="0 -0.02 -3.14159" />
+            <geometry>
+                <box size="0.2 0.04981 0.07" />
+            </geometry>
+        </visual>
+    </link>
+
+    <joint name="front_right_flipper_j" type="revolute">
+        <parent link="right_track" />
+        <child link="front_right_flipper" />
+
+        <!-- 关节相对于父链接的位姿 -->
+        <origin xyz="0.25 -0.073545 0.0195" rpy="3.14159 0.5 3.14159" />
+
+        <!-- 旋转轴 -->
+        <axis xyz="0 1 0" />
+
+        <!-- 关节限制 -->
+        <limit lower="0" upper="3.14" effort="10.0" velocity="1.0" />
+
+        <!-- 动力学属性 -->
+        <dynamics damping="0.0" friction="0.0" />
+    </joint>
+
+    <link name="rear_right_flipper">
+        <!-- 惯性属性 -->
+        <inertial>
+            <origin xyz="-0.08 0 0" rpy="0 0 0" />
+            <mass value="0.75" />
+            <inertia
+                ixx="0.0017491"
+                ixy="2.8512e-07"
+                ixz="0.0018277"
+                iyy="0.012277"
+                iyz="-3.6288e-07"
+                izz="0.010941" />
+        </inertial>
+
+        <!-- 碰撞体1 -->
+        <collision name="rear_right_flipper_collision_large_wheel_collision">
+            <origin xyz="0 0 0" rpy="1.5708 0 0" />
+            <geometry>
+                <cylinder length="0.04981" radius="0.089" />
+            </geometry>
+        </collision>
+
+        <!-- 碰撞体2 -->
+        <collision name="rear_right_flipper_collision_small_wheel_collision_1">
+            <origin xyz="-0.33 0 0" rpy="1.5708 0 0" />
+            <geometry>
+                <cylinder length="0.04981" radius="0.029" />
+            </geometry>
+        </collision>
+
+        <!-- 碰撞体3 -->
+        <collision name="rear_right_flipper_collision_top_bar_collision_2">
+            <origin xyz="-0.165 0 0.0325" rpy="0 0.184162 -3.14159" />
+            <geometry>
+                <box size="0.33 0.04981 0.055" />
+            </geometry>
+        </collision>
+
+        <!-- 碰撞体4 -->
+        <collision name="rear_right_flipper_collision_bottom_bar_collision_3">
+            <origin xyz="-0.165 0 -0.0325" rpy="0 -0.184162 -3.14159" />
+            <geometry>
+                <box size="0.33 0.04981 0.055" />
+            </geometry>
+        </collision>
+
+        <!-- 碰撞体5 -->
+        <collision name="rear_right_flipper_collision_middle_bar_collision_4">
+            <origin xyz="-0.166 0 0.004" rpy="0 -0.02 -3.14159" />
+            <geometry>
+                <box size="0.2 0.04981 0.07" />
+            </geometry>
+        </collision>
+
+        <!-- 视觉元素1 -->
+        <visual name="rear_right_flipper_visual_large_wheel_visual">
+            <origin xyz="0 0 0" rpy="1.5708 0 0" />
+            <geometry>
+                <cylinder length="0.04981" radius="0.089" />
+            </geometry>
+        </visual>
+
+        <!-- 视觉元素2 -->
+        <visual name="rear_right_flipper_visual_small_wheel_visual_1">
+            <origin xyz="-0.33 0 0" rpy="1.5708 0 0" />
+            <geometry>
+                <cylinder length="0.04981" radius="0.029" />
+            </geometry>
+        </visual>
+
+        <!-- 视觉元素3 -->
+        <visual name="rear_right_flipper_visual_top_bar_visual_2">
+            <origin xyz="-0.165 0 0.0325" rpy="0 0.184162 -3.14159" />
+            <geometry>
+                <box size="0.33 0.04981 0.055" />
+            </geometry>
+        </visual>
+
+        <!-- 视觉元素4 -->
+        <visual name="rear_right_flipper_visual_bottom_bar_visual_3">
+            <origin xyz="-0.165 0 -0.0325" rpy="0 -0.184162 -3.14159" />
+            <geometry>
+                <box size="0.33 0.04981 0.055" />
+            </geometry>
+        </visual>
+
+        <!-- 视觉元素5 -->
+        <visual name="rear_right_flipper_visual_middle_bar_visual_4">
+            <origin xyz="-0.166 0 0.004" rpy="0 -0.02 -3.14159" />
+            <geometry>
+                <box size="0.2 0.04981 0.07" />
+            </geometry>
+        </visual>
+    </link>
+
+    <joint name="rear_right_flipper_j" type="revolute">
+        <!-- 父子链接 -->
+        <parent link="right_track" />
+        <child link="rear_right_flipper" />
+
+        <!-- 关节在父链接坐标系中的位姿（根据实际需求修改） -->
+        <origin xyz="-0.25 -0.073545 0.0195" rpy="0 0.5 0" />
+
+        <!-- 旋转轴 -->
+        <axis xyz="0 1 0" />
+
+        <!-- 关节限制 -->
+        <limit lower="0" upper="3.14" effort="10.0" velocity="1.0" />
+
+        <!-- 动力学属性（URDF仅支持 damping / friction） -->
+        <dynamics damping="0.0" friction="0.0" />
+
+        <!-- 如果需要在joint里直接声明硬件接口，可保留。但更推荐放到 <transmission> 标签中 -->
+        <!-- <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface> -->
+    </joint>
+
+<joint name="velodyne_base_mount_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 0.2"/>
+    <parent link="base_link"/>
+    <child link="velodyne_base_link"/>
+  </joint>
+  <link name="velodyne_base_link">
+    <inertial>
+      <mass value="0.83"/>
+      <origin xyz="0 0 0.03585"/>
+      <inertia ixx="0.000908059425" ixy="0" ixz="0" iyy="0.000908059425" iyz="0" izz="0.0011049624"/>
+    </inertial>
+    <visual>
+      <geometry>
+        <mesh filename="package://velodyne_description/meshes/VLP16_base_1.dae"/>
+      </geometry>
+    </visual>
+    <visual>
+      <geometry>
+        <mesh filename="package://velodyne_description/meshes/VLP16_base_2.dae"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 0.03585"/>
+      <geometry>
+        <cylinder length="0.0717" radius="0.0516"/>
+      </geometry>
+    </collision>
+  </link>
+  <joint name="velodyne_base_scan_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 0.0377"/>
+    <parent link="velodyne_base_link"/>
+    <child link="velodyne"/>
+  </joint>
+  <link name="velodyne">
+    <inertial>
+      <mass value="0.01"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="1e-7" ixy="0" ixz="0" iyy="1e-7" iyz="0" izz="1e-7"/>
+    </inertial>
+    <visual>
+      <origin xyz="0 0 -0.0377"/>
+      <geometry>
+        <mesh filename="package://velodyne_description/meshes/VLP16_scan.dae"/>
+      </geometry>
+    </visual>
+  </link>
+  <!-- Gazebo requires the velodyne_gazebo_plugins package -->
+  <gazebo reference="velodyne">
+    <sensor name="velodyne-VLP16" type="ray">
+      <pose>0 0 0 0 0 0</pose>
+      <visualize>false</visualize>
+      <update_rate>10</update_rate>
+      <ray>
+        <scan>
+          <horizontal>
+            <samples>440</samples>
+            <resolution>1</resolution>
+            <min_angle>-3.141592653589793</min_angle>
+            <max_angle>3.141592653589793</max_angle>
+          </horizontal>
+          <vertical>
+            <samples>16</samples>
+            <resolution>1</resolution>
+            <min_angle>-0.2617993877991494</min_angle>
+            <max_angle> 0.2617993877991494</max_angle>
+          </vertical>
+        </scan>
+        <range>
+          <min>0.3</min>
+          <max>131.0</max>
+          <resolution>0.001</resolution>
+        </range>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.0</stddev>
+        </noise>
+      </ray>
+      <plugin filename="libgazebo_ros_velodyne_laser.so" name="gazebo_ros_laser_controller">
+        <topicName>/velodyne_points</topicName>
+        <frameName>velodyne</frameName>
+        <min_range>0.9</min_range>
+        <max_range>130.0</max_range>
+        <gaussianNoise>0.008</gaussianNoise>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+    <!-- <xacro:include
+    filename="/home/tzh/track-flipper/src/velodyne_simulator/velodyne_description/urdf/VLP-16.urdf.xacro"
+    />
+    <xacro:VLP-16 parent="base_link" name="velodyne" topic="/velodyne_points" hz="10" samples="440"
+        gpu="${gpu}">
+        <origin xyz="0 0 0.3" rpy="0 0.7 0" />
+    </xacro:VLP-16> -->
+
+    <!-- Transmission for front_left_flipper_j -->
+    <transmission name="tran1">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="front_left_flipper_j">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="motor1">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+
+    <!-- Transmission for rear_left_flipper_j -->
+    <transmission name="tran2">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="rear_left_flipper_j">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="motor2">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+
+    <!-- Transmission for front_right_flipper_j -->
+    <transmission name="tran3">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="front_right_flipper_j">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="motor3">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+
+    <!-- Transmission for rear_right_flipper_j -->
+    <transmission name="tran4">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="rear_right_flipper_j">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="motor4">
+            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+    </transmission>
+
+    <!-- Gazebo Plugins -->
+    <gazebo>
+
+        <plugin name="simple_tracked_vehicle"
+            filename="/usr/lib/x86_64-linux-gnu/gazebo-11/plugins/libSimpleTrackedVehiclePlugin.so">
+
+            <left_flipper>front_left_flipper</left_flipper>
+            <left_flipper>rear_left_flipper</left_flipper>
+            <right_flipper>front_right_flipper</right_flipper>
+            <right_flipper>rear_right_flipper</right_flipper>
+            <body>base_link</body>
+
+            <left_track>left_track</left_track>
+            <right_track>right_track</right_track>
+
+            <track_mu>2</track_mu>
+            <track_mu2>0.5</track_mu2>
+        </plugin>
+
+        <plugin name="keyboard_control"
+            filename="/usr/lib/x86_64-linux-gnu/gazebo-11/plugins/libKeysToCmdVelPlugin.so">
+            <publish_as_twist>true</publish_as_twist>
+            <cmd_vel_topic>~/simple_tracked/cmd_vel_twist</cmd_vel_topic>
+        </plugin>
+        <!-- Gazebo ROS Control Plugin -->
+        <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
+            <robotNamespace>/simple_tracked</robotNamespace>
+            <controlPeriod>0.001</controlPeriod>
+            <robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType>
+        </plugin>
+
+        <!-- setup of the interface -->
+        <plugin name='tracked_vehicle_interface'
+            filename='libgazebo_ros_tracked_vehicle_interface.so'>
+            <commandROSTopic>/cmd_vel</commandROSTopic>
+            <commandIGNTopic>~/simple_tracked/cmd_vel_twist</commandIGNTopic>
+            <!-- <odometryTopic>~odom</odometryTopic>     ROS topic for the odometry data - remap if
+                you're using another odom source -->
+            <!-- <trackSpeedTopic>~track_speed</trackSpeedTopic>  gazebo topic of
+                SimpleTrackedVehicle -->
+
+            <robotBaseFrame>base_link</robotBaseFrame>
+            <!-- <odometryFrame>odom</odometryFrame>      tf frame of the odometry messages -->
+
+            <tracks_separation>0.571</tracks_separation>
+            <publishOdomTF>true</publishOdomTF>
+            <updateRate>100.0</updateRate>
+
+            <!-- <odometrySource>encoder</odometrySource> --> <!-- [encoder,world] - choose world for ground truth -->
+        </plugin>
+
+
+        <!-- Keyboard Control Plugin -->
+    </gazebo>
+
+</robot>
