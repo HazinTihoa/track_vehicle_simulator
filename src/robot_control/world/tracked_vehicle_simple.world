@@ -20,9 +20,6 @@
         <include>
             <uri>model://ground_plane</uri>
         </include>
-
-
-
         <model name="simple_tracked">
 
             <pose frame=''>0 3 0.1 0 0 -1.5708</pose>
@@ -1092,7 +1089,7 @@
                     </geometry>
                 </visual>
             </link>
- 
+
             <!-- velodyne_base_scan_joint -->
             <joint name="velodyne_base_scan_joint" type="fixed">
                 <parent>velodyne_base_link</parent>
@@ -1165,6 +1162,62 @@
                         <gaussianNoise>0.008</gaussianNoise>
                     </plugin>
                 </sensor>
+            </link>
+
+            <joint name="imu_j" type="fixed">
+                <parent>base_link</parent>
+                <child>imu_link</child>
+            </joint>
+
+            <link name="imu_link">
+                <pose>0 0 0 0 0 0</pose>
+                <inertial>
+                    <inertia>
+                        <ixx>0.01</ixx>
+                        <ixy>0.0</ixy>
+                        <ixz>0.0</ixz>
+                        <iyy>0.01</iyy>
+                        <iyz>0.0</iyz>
+                        <izz>0.01</izz>
+                    </inertia>
+                    <mass>0.01</mass>
+                </inertial>
+                <collision name="collision">
+                    <geometry>
+                        <box>
+                            <size>0.06 0.02 0.02</size>
+                        </box>
+                    </geometry>
+                </collision>
+                <visual name="visual">
+                    <geometry>
+                        <box>
+                            <size>0.06 0.02 0.02</size>
+                        </box>
+                    </geometry>
+                    <material>
+                        <ambient>0.2 0.2 0.2 1.0</ambient>
+                        <diffuse>.421 0.225 0.0 1.0</diffuse>
+                    </material>
+                </visual>
+                <sensor name="imu_sensor" type="imu">
+                    <always_on>true</always_on>
+                    <update_rate>100</update_rate>
+                    <visualize>true</visualize>
+                    <topic>__default_topic__</topic>
+                    <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_plugin">
+                        <topicName>imu</topicName>
+                        <bodyName>imu_link</bodyName>
+                        <updateRateHZ>10.0</updateRateHZ>
+                        <gaussianNoise>0.0</gaussianNoise>
+                        <xyzOffset>0 0 0</xyzOffset>
+                        <rpyOffset>0 0 0</rpyOffset>
+                        <frameName>imu_link</frameName>
+                        <initialOrientationAsReference>false</initialOrientationAsReference>
+                    </plugin>
+                    <pose>0 0 0 0 0 0</pose>
+                </sensor>
+
             </link>
 
 
