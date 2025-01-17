@@ -27,8 +27,8 @@ arm_position_controller3 arm_position_controller4" />
 
     <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher"
 ns="/simple_tracked">
-        <param name="publish_frequency" type="double" value="10.0" />
+        <param name="publish_frequency" type="double" value="30.0" />
     </node>
     
-
+    <node name="continuous_joint_controller" pkg="robot_control" type="control_arm.py" output="screen" />
 </launch>
