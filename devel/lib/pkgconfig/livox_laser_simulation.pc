@@ -1,0 +1,8 @@
+prefix=/home/tzh/track-flipper/devel
+
+Name: livox_laser_simulation
+Description: Description of livox_laser_simulation
+Version: 0.0.0
+Cflags: -I/home/tzh/track-flipper/devel/include -I/home/tzh/track-flipper/src/Mid360_simulation_plugin/livox_laser_simulation/include
+Libs: -L${prefix}/lib -llivox_laser_simulation
+Requires: tf

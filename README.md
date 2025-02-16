@@ -25,4 +25,5 @@ angular:
   z: 0.5"
 
 ```
+Use ‘y’ and ‘h’ to change the flipper angle. noted: need to focus on the launch file terminal!
   ### keep updating...

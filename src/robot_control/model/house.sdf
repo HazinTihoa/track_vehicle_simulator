@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <model name="my_stl_model">
+    <pose>0 0 0 0 0 0</pose> <!-- 模型的位置和姿态 -->
+    <link name="link">
+      <visual name="visual">
+        <geometry>
+          <mesh>
+            <uri>/home/tzh/track-flipper/src/robot_control/model/gggg.stl</uri>  <!-- 引用 STL 文件 -->
+          </mesh>
+        </geometry>
+      </visual>
+
+      <!-- 可选：如果需要模拟物理属性（例如碰撞、摩擦等） -->
+      <collision name="collision">
+        <geometry>
+          <mesh>
+            <uri>model://my_model/stl_file.stl</uri>  <!-- 引用同一个 STL 文件 -->
+          </mesh>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass>1.0</mass>  <!-- 质量 -->
+        <inertia>
+          <ixx>0.1</ixx> <ixy>0.0</ixy> <ixz>0.0</ixz>
+          <iyy>0.1</iyy> <iyz>0.0</iyz> <izz>0.1</izz>
+        </inertia>
+      </inertial>
+    </link>
+  </model>
+</sdf>

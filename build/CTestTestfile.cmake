@@ -7,6 +7,7 @@
 subdirs("gtest")
 subdirs("velodyne_simulator/velodyne_description")
 subdirs("velodyne_simulator/velodyne_simulator")
+subdirs("Mid360_simulation_plugin/livox_laser_simulation")
 subdirs("gazebo_ros_tracked_vehicle_interface")
 subdirs("robot_control")
 subdirs("velodyne_simulator/velodyne_gazebo_plugins")
